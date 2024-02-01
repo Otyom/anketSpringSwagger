@@ -26,9 +26,9 @@ public class OgretmenService {
 
     public BaseResponseDto saveOgretmen(SaveOgretmenRequestDto dto){
         Optional<Long> id=jsonTokenManager.getIdByToken(dto.getToken());
-        if (id.isEmpty()){
+        /*if (id.isEmpty()){
             throw new RuntimeException();
-        }
+        }*/
 
         Ogretmen ogretmen=(Ogretmen) Ogretmen.builder()
                 .name(dto.getName())
