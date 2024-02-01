@@ -1,0 +1,17 @@
+server:
+  port: 8080
+
+spring:
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    username: postgres
+    password: root
+    url: jdbc:postgresql://localhost:5432/SpringBootDb
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+
+
+token-config:
+  secret-key: 6f9b60514863dfc1cf124bf8d9d7bfb270566dbf4a8e5a51d08bab37b00d77e1bfa03aadf2c107e5eb2bdcf61e9747279ffb944356c1741a633e3c741dbad335
