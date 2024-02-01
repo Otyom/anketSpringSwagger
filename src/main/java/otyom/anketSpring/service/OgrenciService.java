@@ -37,11 +37,12 @@ public class OgrenciService {
     //Öğrenci kaydet
     public BaseResponseDto ogrenciSave(SaveOgrenciRequestDto dto) {
         Optional<Long> id=jsonTokenManager.getIdByToken(dto.getToken());
-        if (id.isEmpty()){
+        /*if (id.isEmpty()){
             throw new RuntimeException();
-        }
+        }*/
 
-                Ogrenci ogrenci= (Ogrenci) Ogrenci.builder()
+
+        Ogrenci ogrenci= (Ogrenci) Ogrenci.builder()
                 .name(dto.getName())
                 .surname(dto.getSurname())
                 .email(dto.getEmail())
