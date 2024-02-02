@@ -10,7 +10,7 @@ import org.springframework.http.HttpStatus;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class LoginOgretmenResponseDto {
+public class LoginTeacherResponseDto {
     private String token;
     private String message;
     private int statusCode;

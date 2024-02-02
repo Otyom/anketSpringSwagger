@@ -25,7 +25,7 @@ public class JsonTokenManager {
             token= JWT.create()
                     .withClaim("id",id)
                     .withClaim("email","naime-96@hotmail.com")
-                    .withIssuer("otyom's")
+                    .withIssuer("o")
                     .withIssuedAt(new Date())
                     .withExpiresAt(new Date(System.currentTimeMillis()+experiesTime))
                     .sign(Algorithm.HMAC512(secretKey));
@@ -39,15 +39,19 @@ public class JsonTokenManager {
     public Optional<Long>getIdByToken(String token){
         try {
             Algorithm algorithm=Algorithm.HMAC512(secretKey);
-            JWTVerifier jwtVerifier=JWT.require(algorithm).withIssuer("otyom's").build();
+            JWTVerifier jwtVerifier=JWT.require(algorithm).withIssuer("o").build();
             DecodedJWT decodedJWT=jwtVerifier.verify(token);
             if (decodedJWT==null){
                 return Optional.empty();
             }
-            Optional<Long>id=Optional.of(decodedJWT.getClaim("id").asLong());
-            return id;
+            Optional<Long> ownerId=Optional.of(decodedJWT.getClaim("id").asLong());
+            if (ownerId.isEmpty()){
+                System.out.println("owner adı bos");
+            }
+            return ownerId;
 
         }catch (Exception e){
+            e.printStackTrace();
             throw new RuntimeException();
         }
     }

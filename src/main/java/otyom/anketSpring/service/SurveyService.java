@@ -14,7 +14,7 @@ public class SurveyService {
     private ISurveyRepository repository;
 
 
-    public BaseResponseDto SurveySave(SaveSurveyRequestDto dto){
+    public BaseResponseDto surveySave(SaveSurveyRequestDto dto){
 
         Survey survey=Survey.builder()
                 .title(dto.getTitle())

@@ -3,13 +3,13 @@ package otyom.anketSpring.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import otyom.anketSpring.service.SınıfService;
+import otyom.anketSpring.service.ClasService;
 
 @RestController
 @RequestMapping("/Sınıf")
-public class SınıfController {
+public class ClasController {
     @Autowired
-    private SınıfService sınıfService;
+    private ClasService clasService;
 
 
 

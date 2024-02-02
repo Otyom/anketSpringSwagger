@@ -18,24 +18,15 @@ public class Answer {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @Column(name = "answer")
     private String answer;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "question_id")
     private Question question;
 
-    @Column(name = "date")
     private Date date;
-
-    @Column(name = "isText")
     private boolean isText;
-
-    @Column(name = "isNumeric")
     private boolean isNumeric;
-
-    @Column(name = "isYesNo")
     private boolean isYesNo;
 
     public Answer(String answer, Question question, Date date) {

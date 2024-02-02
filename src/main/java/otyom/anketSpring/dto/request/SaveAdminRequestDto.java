@@ -13,7 +13,7 @@ import otyom.anketSpring.entity.enums.RoleEnum;
 @Builder
 public class SaveAdminRequestDto {
    private String token;
-   private Gender cinsiyet;
+   private Gender gender;
    private String name;
    private String surname;
    private String email;
