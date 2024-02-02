@@ -25,16 +25,10 @@ public class Question {
     @OrderBy("id ASC")
     List<Answer> answers;
 
-    @Column(name = "question")
     private String question;
-
-    @Column(name = "type")
     private String type;
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "survey_id")
     private Survey survey;
-
-    @Column(name = "date")
     private Date date;
 }

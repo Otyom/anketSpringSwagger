@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class LoginOgrenciResponseDto {
+public class LoginStudentResponseDto {
     int statusCode;
     String message;
     String token;

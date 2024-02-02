@@ -15,7 +15,7 @@ import java.util.List;
 @NoArgsConstructor
 @Data
 @Entity
-@Table(name = "surveys")
+@Table(name = "survey")
 public class Survey {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,12 +25,7 @@ public class Survey {
     @OrderBy("id ASC")
     List<Question> questions;
 
-    @Column(name = "title")
     private String title;
-
-    @Column(name = "date")
     private Date date;
-
-    @Column(name = "description")
     private String description;
 }

@@ -7,13 +7,10 @@ import org.springframework.web.bind.annotation.*;
 import otyom.anketSpring.dto.request.*;
 import otyom.anketSpring.dto.response.*;
 import otyom.anketSpring.entity.Admin;
-import otyom.anketSpring.entity.enums.Gender;
-import otyom.anketSpring.entity.enums.RoleEnum;
-import otyom.anketSpring.repository.IAdminRepository;
 import otyom.anketSpring.service.AdminService;
-import otyom.anketSpring.service.OgrenciService;
-import otyom.anketSpring.service.OgretmenService;
-import otyom.anketSpring.service.SınıfService;
+import otyom.anketSpring.service.StudentService;
+import otyom.anketSpring.service.TeacherService;
+import otyom.anketSpring.service.ClasService;
 
 import java.util.List;
 
@@ -24,17 +21,17 @@ public class AdminController {
     @Autowired
     private AdminService adminService;
     @Autowired
-    private OgretmenService ogretmenService;
+    private TeacherService teacherService;
     @Autowired
-    private SınıfService sınıfService;
+    private ClasService clasService;
     @Autowired
-    private OgrenciService ogrenciService;
+    private StudentService studentService;
 
 
     //Admin  İşlemleri
    @PostMapping("/saveAdmin")
    public void save(@RequestBody SaveAdminRequestDto dto){
-    adminService.save(dto);
+    adminService.saveAdmin(dto);
    }
 
    @GetMapping("/getAll")
@@ -56,30 +53,30 @@ public class AdminController {
 
 
    //öğretmen işlemleri
-   @PostMapping("/saveOgretmen")
-    public ResponseEntity<BaseResponseDto>ogretmenSave(SaveOgretmenRequestDto dto){
-       return ResponseEntity.ok(ogretmenService.saveOgretmen(dto));
+   @PostMapping("/saveTeacher")
+    public ResponseEntity<BaseResponseDto>teacherSave(SaveTeacherRequestDto dto){
+       return ResponseEntity.ok(teacherService.saveTeacher(dto));
    }
 
 
 
 
    //Sınıf işlemleri
-    @PostMapping("/saveSınıf")
-    public ResponseEntity<BaseResponseDto>sınıfSave(SaveSınıfRequestDto dto){
-        return ResponseEntity.ok(sınıfService.sınıfSave(dto));
+    @PostMapping("/saveClas")
+    public ResponseEntity<BaseResponseDto>clasSave(SaveClasRequestDto dto){
+        return ResponseEntity.ok(clasService.clasSave(dto));
     }
 
 
     //Öğrenci İşlemleri
-    @PostMapping("/saveOgrenci")
-    public ResponseEntity<BaseResponseDto>ogrenciSave(@RequestBody SaveOgrenciRequestDto dto){
-       return ResponseEntity.ok(ogrenciService.ogrenciSave(dto));
+    @PostMapping("/saveStudent")
+    public ResponseEntity<BaseResponseDto>studentSave(@RequestBody SaveStudentRequestDto dto){
+       return ResponseEntity.ok(studentService.studentSave(dto));
     }
 
-    @GetMapping("/getOgrenciByIdSınıf")
-    public ResponseEntity<List<GetSınıfOgrenciResponseDto>> getOgrenciBySınıfId(@RequestParam Long sınıfId){
-        return ResponseEntity.ok(ogrenciService.getAllOgrenciBySınıfId(sınıfId));
+    @GetMapping("/getSutudentByClasId")
+    public ResponseEntity<List<GetClasStudentResponseDto>> getAllStudentByClasId(@RequestParam Long clasId){
+        return ResponseEntity.ok(studentService.getAllStudentByClasId(clasId));
     }
 
 

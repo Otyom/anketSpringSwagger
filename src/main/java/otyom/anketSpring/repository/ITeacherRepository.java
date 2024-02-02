@@ -2,14 +2,12 @@ package otyom.anketSpring.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-import otyom.anketSpring.entity.Ogrenci;
-import otyom.anketSpring.entity.Ogretmen;
+import otyom.anketSpring.entity.Teacher;
 
 import java.util.Optional;
 
 @Repository
-public interface IOgretmenRepository extends JpaRepository<Ogretmen,Long> {
+public interface ITeacherRepository extends JpaRepository<Teacher,Long> {
     Boolean existsByEmail(String email);
-
-    Optional<Ogretmen> findOptionalByEmail(String email);
+    Optional<Teacher> findOptionalByEmail(String email);
 }

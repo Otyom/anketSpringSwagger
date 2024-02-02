@@ -4,20 +4,17 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
-import org.hibernate.annotations.Columns;
-import otyom.anketSpring.entity.Sinif;
 import otyom.anketSpring.entity.enums.Gender;
-import otyom.anketSpring.entity.enums.RoleEnum;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 
-public class SaveOgrenciRequestDto {
+public class SaveStudentRequestDto {
     @NonNull
-    private Long sınıfId;
+    private Long clasId;
     private String tc;
-    private Gender Cinsiyet;
+    private Gender gender;
     private String name;
     private String surname;
     private String email;

@@ -1,6 +1,7 @@
 package otyom.anketSpring.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -11,14 +12,10 @@ import lombok.experimental.SuperBuilder;
 @NoArgsConstructor
 @Data
 @Entity
-@Table(name = "sinif")
-public class Sinif {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    @Column(unique = true,nullable = false)
-    private String sinifName;
+@Table(name = "student")
+public class Student extends MyUser {
 
-
+    @NotNull
+    private Long clasId;
 
 }

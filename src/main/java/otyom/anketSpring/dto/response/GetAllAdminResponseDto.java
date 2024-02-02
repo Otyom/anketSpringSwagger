@@ -18,10 +18,7 @@ public class GetAllAdminResponseDto {
     private String surname;
     private String email;
     private String message;
-
     @Enumerated(EnumType.STRING)
-    private Gender cinsiyet;
-
-    private RoleEnum role;
+    private Gender gender;
     private String statusCode;
 }

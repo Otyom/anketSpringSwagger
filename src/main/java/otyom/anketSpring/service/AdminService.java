@@ -22,20 +22,19 @@ public class AdminService {
     @Autowired
     private JsonTokenManager jsonTokenManager;
 
-    public void save(SaveAdminRequestDto dto) {
+    public void saveAdmin(SaveAdminRequestDto dto) {
         Optional<Long> id=jsonTokenManager.getIdByToken(dto.getToken());
-        /*if (id.isEmpty()){
+        if (id.isEmpty()){
             throw new RuntimeException();
-        }*/
-
+        }
 
         Admin admin= Admin.builder()
                 .name(dto.getName())
                 .surname(dto.getSurname())
                 .email(dto.getEmail())
                 .password(dto.getPassword())
-                .cinsiyet(dto.getCinsiyet())
-                .role(RoleEnum.Admin_Role)
+                .cinsiyet(dto.getGender())
+                .role(RoleEnum.ADMIN_ROLE)
                 .tc(dto.getTc())
                 .phoneNumber(dto.getPhoneNumber())
                 .build();
