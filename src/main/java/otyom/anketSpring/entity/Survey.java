@@ -8,7 +8,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Builder
 @AllArgsConstructor
@@ -24,10 +26,10 @@ public class Survey {
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "survey_question",
-            joinColumns = {@JoinColumn(name = "questionId")},
-            inverseJoinColumns = @JoinColumn(name = "surveyId")
+            joinColumns = {@JoinColumn(name = "surveyId")},
+            inverseJoinColumns = @JoinColumn(name = "questionId")
     )
-    private List<Survey> surveys;
+    private Set<Question> questions = new HashSet<>();
 
 
     @ManyToMany(mappedBy = "surveys")
@@ -36,5 +38,6 @@ public class Survey {
     private String title;
     private Date date;
     private String description;
+
 
 }
