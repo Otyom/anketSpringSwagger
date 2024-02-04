@@ -52,32 +52,8 @@ public class AdminController {
 
 
 
-   //öğretmen işlemleri
-   @PostMapping("/saveTeacher")
-    public ResponseEntity<BaseResponseDto>teacherSave(SaveTeacherRequestDto dto){
-       return ResponseEntity.ok(teacherService.saveTeacher(dto));
-   }
 
 
-
-
-   //Sınıf işlemleri
-    @PostMapping("/saveClas")
-    public ResponseEntity<BaseResponseDto>clasSave(SaveClasRequestDto dto){
-        return ResponseEntity.ok(clasService.clasSave(dto));
-    }
-
-
-    //Öğrenci İşlemleri
-    @PostMapping("/saveStudent")
-    public ResponseEntity<BaseResponseDto>studentSave(@RequestBody SaveStudentRequestDto dto){
-       return ResponseEntity.ok(studentService.studentSave(dto));
-    }
-
-    @GetMapping("/getSutudentByClasId")
-    public ResponseEntity<List<GetClasStudentResponseDto>> getAllStudentByClasId(@RequestParam String token,@RequestParam Long clasId){
-        return ResponseEntity.ok(studentService.getAllStudentByClasId(token,clasId));
-    }
 
 
 
