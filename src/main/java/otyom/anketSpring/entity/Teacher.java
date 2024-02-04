@@ -16,4 +16,5 @@ import java.util.List;
 @Table(name = "teacher")
 public class Teacher extends MyUser {
 int a;
+
 }
