@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import otyom.anketSpring.dto.request.SaveQuestionRequestDto;
 import otyom.anketSpring.dto.response.BaseResponseDto;
+import otyom.anketSpring.entity.Admin;
 import otyom.anketSpring.entity.Question;
 import otyom.anketSpring.entity.QuestionType.Secenek;
 import otyom.anketSpring.entity.QuestionType.Text;
@@ -33,10 +34,13 @@ public class QuestionService {
 
     public BaseResponseDto questionSave(SaveQuestionRequestDto dto) {
         Optional<Long> id=jsonTokenManager.getIdByToken(dto.getToken());
-        if (id==null)throw new RuntimeException();
-
+        if (id.isEmpty()){
+            throw new RuntimeException();
+        }
         Optional<Teacher> teacher=teacherService.findById(id.get());
-        if (teacher.isEmpty())throw new RuntimeException();
+        if (teacher.isEmpty()){
+            throw new RuntimeException();
+        }
 
         Optional<Question> question = repository.findByQuestion(dto.getQuestion());
         if (question.isPresent()) {
@@ -48,8 +52,9 @@ public class QuestionService {
         }
         Question newQuestion = Question.builder()
                 .date(new Date())
-                .teacher(teacher.get())
+                .teacherId(teacher.get().getId())
                 .question(dto.getQuestion())
+                .type(dto.getQuestionType())
                 .build();
         newQuestion.setType(dto.getQuestionType());
         if (dto.getQuestionType()==QuestionType.YESNO){
@@ -62,7 +67,7 @@ public class QuestionService {
         repository.save(newQuestion);
 
         return BaseResponseDto.builder()
-                .message("Answer saved successfully")
+                .message("Question saved successfully")
                 .statusCode(200)
                 .httpStatus(HttpStatus.OK)
                 .build();

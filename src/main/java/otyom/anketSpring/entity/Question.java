@@ -31,9 +31,7 @@ public class Question {
     private QuestionType type;
     private String answerType;
     private Date date;
-    @ManyToOne
-    @JoinColumn(name = "teacher_id")
-    private Teacher teacher;
+  private Long teacherId;
 
 
 }

@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import otyom.anketSpring.dto.request.SaveSurveyRequestDto;
+import otyom.anketSpring.dto.request.SaveSurveyToQuestionRequestDto;
 import otyom.anketSpring.dto.response.BaseResponseDto;
 import otyom.anketSpring.service.SurveyService;
 
@@ -22,4 +23,9 @@ public class SurveyController {
         return ResponseEntity.ok(surveyService.surveySave(dto));
     }
 
+    @PostMapping("/saveSurveyToQuestion")
+    public ResponseEntity<BaseResponseDto> saveSurveyToQuestion(SaveSurveyToQuestionRequestDto dto)
+    {
+        return ResponseEntity.ok(surveyService.surveyToQuestionSave(dto));
+    }
 }

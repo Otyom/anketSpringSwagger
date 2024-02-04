@@ -24,10 +24,14 @@ public class Survey {
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "survey_question",
-            joinColumns = @JoinColumn(name = "question_id"),
-            inverseJoinColumns = @JoinColumn(name = "survey_id")
+            joinColumns = {@JoinColumn(name = "questionId")},
+            inverseJoinColumns = @JoinColumn(name = "surveyId")
     )
     private List<Survey> surveys;
+
+
+    @ManyToMany(mappedBy = "surveys")
+    private List<Clas> classes;
 
     private String title;
     private Date date;
