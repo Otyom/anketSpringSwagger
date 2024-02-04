@@ -35,12 +35,12 @@ public class AdminController {
    }
 
    @GetMapping("/getAll")
-   public ResponseEntity<List<Admin>> getAdmin(){
-    return ResponseEntity.ok(adminService.getAll());
+   public ResponseEntity<List<GetAllAdminResponse>> getAdmin(@RequestParam String token){
+    return ResponseEntity.ok(adminService.getAll(token));
    }
    @PostMapping("/getAdminById")
     public ResponseEntity<GetAdminByIdResponseDto>getAdminById(@RequestBody GetAdminByIdRequestDto dto){
-       return  ResponseEntity.ok(adminService.findById(dto));
+       return  ResponseEntity.ok(adminService.getAdminfindById(dto));
    }
    @PostMapping("/login")
    private ResponseEntity<LoginAdminResponseDto>login(@RequestBody LoginAdminRequestDto dto){
@@ -75,8 +75,8 @@ public class AdminController {
     }
 
     @GetMapping("/getSutudentByClasId")
-    public ResponseEntity<List<GetClasStudentResponseDto>> getAllStudentByClasId(@RequestParam Long clasId){
-        return ResponseEntity.ok(studentService.getAllStudentByClasId(clasId));
+    public ResponseEntity<List<GetClasStudentResponseDto>> getAllStudentByClasId(@RequestParam String token,@RequestParam Long clasId){
+        return ResponseEntity.ok(studentService.getAllStudentByClasId(token,clasId));
     }
 
 

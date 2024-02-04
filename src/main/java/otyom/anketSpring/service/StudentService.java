@@ -1,6 +1,7 @@
 package otyom.anketSpring.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import otyom.anketSpring.dto.request.LoginStudentRequestDto;
@@ -8,7 +9,9 @@ import otyom.anketSpring.dto.request.SaveStudentRequestDto;
 import otyom.anketSpring.dto.response.BaseResponseDto;
 import otyom.anketSpring.dto.response.GetClasStudentResponseDto;
 import otyom.anketSpring.dto.response.LoginStudentResponseDto;
+import otyom.anketSpring.entity.Admin;
 import otyom.anketSpring.entity.Student;
+import otyom.anketSpring.entity.Teacher;
 import otyom.anketSpring.entity.enums.RoleEnum;
 import otyom.anketSpring.repository.IStudentRepository;
 import otyom.anketSpring.util.JsonTokenManager;
@@ -21,6 +24,10 @@ import java.util.Optional;
 public class StudentService {
     @Autowired
     private IStudentRepository repository;
+    @Autowired
+    private TeacherService teacherService;
+    @Autowired
+    private AdminService adminService;
 
     public final JsonTokenManager jsonTokenManager;
     public StudentService(JsonTokenManager jsonTokenManager) {
@@ -29,9 +36,13 @@ public class StudentService {
 
     //Öğrenci kaydet
     public BaseResponseDto studentSave(SaveStudentRequestDto dto) {
-        Optional<Long> id=jsonTokenManager.getIdByToken(dto.getToken());
-       if (id.isEmpty()){
-            throw new RuntimeException();
+        Optional<Long> id = jsonTokenManager.getIdByToken(dto.getToken());
+        if (id.isEmpty()) {
+            throw new RuntimeException("Admin not found");
+        }
+        Optional<Admin> adminOptional = adminService.findById(id.get());
+        if (adminOptional.isEmpty()) {
+            throw new RuntimeException("Admin veya teacher not found");
         }
         Student student= Student.builder()
                 .name(dto.getName())
@@ -58,9 +69,18 @@ public class StudentService {
 
 
     //Sınıftaki öğrencileri Getir.
-    public List<GetClasStudentResponseDto> getAllStudentByClasId(long clasId){
-        List<Student> classes=repository.findByclasId(clasId);
+    public List<GetClasStudentResponseDto> getAllStudentByClasId(String token,Long clasId){
+        Optional<Long> id = jsonTokenManager.getIdByToken(token);
+        if (id.isEmpty()) {
+            throw new RuntimeException("Admin not found");
+        }
+        Optional<Teacher> teacherOptional = teacherService.findById(id.get());
+        Optional<Admin> adminOptional = adminService.findById(id.get());
+        if (adminOptional.isEmpty() || teacherOptional.isEmpty()) {
+            throw new RuntimeException("Admin veya teacher not found");
+        }
 
+        List<Student> classes=repository.findByclasId(clasId);
         List<GetClasStudentResponseDto> responseDtos=new ArrayList<>();
         for (Student student :classes){
             responseDtos.add(GetClasStudentResponseDto.builder()
@@ -75,7 +95,6 @@ public class StudentService {
         }
         return responseDtos;
     }
-
 
 
     //Öğrenci Login
@@ -98,10 +117,12 @@ public class StudentService {
     }
 
 
-
-
-
     public  List<Student> getAllStudent(){
         return repository.findAll();
+    }
+
+    public Optional<Student> findById(Long id) {
+       Optional<Student>student= repository.findById(id);
+       return student;
     }
 }

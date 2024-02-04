@@ -6,6 +6,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
+import java.util.List;
+
 @SuperBuilder
 @AllArgsConstructor
 @NoArgsConstructor
@@ -13,6 +15,5 @@ import lombok.experimental.SuperBuilder;
 @Entity
 @Table(name = "teacher")
 public class Teacher extends MyUser {
-
-    int b;
+int a;
 }

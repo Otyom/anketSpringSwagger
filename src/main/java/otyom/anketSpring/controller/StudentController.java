@@ -24,9 +24,5 @@ public class StudentController {
         return ResponseEntity.ok(studentService.studentLogin(dto));
     }
 
-@PostMapping("/saveStudent")
- private ResponseEntity<BaseResponseDto>studentSave(@RequestBody SaveStudentRequestDto dto){
-        return ResponseEntity.ok(studentService.studentSave(dto));
-}
 
 }

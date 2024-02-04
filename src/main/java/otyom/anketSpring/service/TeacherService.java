@@ -7,6 +7,7 @@ import otyom.anketSpring.dto.request.LoginTeacherRequestDto;
 import otyom.anketSpring.dto.request.SaveTeacherRequestDto;
 import otyom.anketSpring.dto.response.BaseResponseDto;
 import otyom.anketSpring.dto.response.LoginTeacherResponseDto;
+import otyom.anketSpring.entity.Admin;
 import otyom.anketSpring.entity.Teacher;
 import otyom.anketSpring.entity.enums.RoleEnum;
 import otyom.anketSpring.repository.ITeacherRepository;
@@ -19,6 +20,8 @@ public class TeacherService {
     @Autowired
     private ITeacherRepository repository;
     @Autowired
+    private AdminService adminService;
+    @Autowired
     private JsonTokenManager jsonTokenManager;
 
     public BaseResponseDto saveTeacher(SaveTeacherRequestDto dto){
@@ -26,6 +29,8 @@ public class TeacherService {
         if (id.isEmpty()){
             throw new RuntimeException();
         }
+        Optional<Admin> admin=adminService.findById(id.get());
+        if (admin.isEmpty())throw new RuntimeException();
 
         Teacher ogretmen= Teacher.builder()
                 .name(dto.getName())
@@ -48,7 +53,7 @@ public class TeacherService {
 
     //Oğretmen login
     public LoginTeacherResponseDto teacherLogin(LoginTeacherRequestDto dto){
-        if (repository.existsByEmail(dto.getEmail())){
+        if (!repository.existsByEmail(dto.getEmail())){
             throw new RuntimeException();           }
 
         Optional<Teacher> teacher=repository.findOptionalByEmail(dto.getEmail());
@@ -66,6 +71,8 @@ public class TeacherService {
 }
 
 
-
-
+    public Optional<Teacher> findById(Long id) {
+        Optional<Teacher> teacher=repository.findById(id);
+        return teacher;
+    }
 }

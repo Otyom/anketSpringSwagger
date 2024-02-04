@@ -5,16 +5,19 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import otyom.anketSpring.entity.enums.QuestionType;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
 @Entity
-@Table(name="questions")
+@Table(name="question")
 public class Question {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,13 +25,15 @@ public class Question {
     private Long id;
 
     @OneToMany(mappedBy = "question")
-    @OrderBy("id ASC")
-    List<Answer> answers;
+    private List<Answer> answers;
 
     private String question;
-    private String type;
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "survey_id")
-    private Survey survey;
+    private QuestionType type;
+    private String answerType;
     private Date date;
+    @ManyToOne
+    @JoinColumn(name = "teacher_id")
+    private Teacher teacher;
+
+
 }

@@ -44,15 +44,18 @@ public class JsonTokenManager {
             if (decodedJWT==null){
                 return Optional.empty();
             }
-            Optional<Long> ownerId=Optional.of(decodedJWT.getClaim("id").asLong());
-            if (ownerId.isEmpty()){
-                System.out.println("owner adı bos");
+            Optional<Long> ıd=Optional.of(decodedJWT.getClaim("id").asLong());
+            if (ıd.isEmpty()){
+                System.out.println("id bos");
             }
-            return ownerId;
+            return ıd;
 
         }catch (Exception e){
             e.printStackTrace();
             throw new RuntimeException();
         }
     }
+
+
+
 }

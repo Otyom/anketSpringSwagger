@@ -1,17 +1,18 @@
 package otyom.anketSpring.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import otyom.anketSpring.dto.request.GetAdminByIdRequestDto;
 import otyom.anketSpring.dto.request.SaveAdminRequestDto;
-import otyom.anketSpring.dto.response.GetAdminByIdResponseDto;
+import otyom.anketSpring.dto.response.*;
 import otyom.anketSpring.dto.request.LoginAdminRequestDto;
-import otyom.anketSpring.dto.response.LoginAdminResponseDto;
 import otyom.anketSpring.entity.Admin;
 import otyom.anketSpring.entity.enums.RoleEnum;
 import otyom.anketSpring.repository.IAdminRepository;
 import otyom.anketSpring.util.JsonTokenManager;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -22,12 +23,17 @@ public class AdminService {
     @Autowired
     private JsonTokenManager jsonTokenManager;
 
-    public void saveAdmin(SaveAdminRequestDto dto) {
-        Optional<Long> id=jsonTokenManager.getIdByToken(dto.getToken());
-        if (id.isEmpty()){
-            throw new RuntimeException();
-        }
 
+
+    public void saveAdmin(SaveAdminRequestDto dto) {
+  /*      Optional<Long> id = jsonTokenManager.getIdByToken(dto.getToken());
+        if (id.isEmpty()) {
+            throw new RuntimeException("Admin not found");
+        }
+        Optional<Admin> adminOptional = repository.findById(id.get());
+        if (adminOptional.isEmpty()) {
+            throw new RuntimeException("Admin not found");
+        }*/
         Admin admin= Admin.builder()
                 .name(dto.getName())
                 .surname(dto.getSurname())
@@ -41,14 +47,46 @@ public class AdminService {
         repository.save(admin);
     }
 
-    public List<Admin> getAll() {
-        return repository.findAll();
+    public List<GetAllAdminResponse> getAll(String token) {
+        Optional<Long> id = jsonTokenManager.getIdByToken(token);
+        if (id.isEmpty()) {
+            throw new RuntimeException("Admin not found");
+        }
+        Optional<Admin> adminOptional = repository.findById(id.get());
+        if (adminOptional.isEmpty()) {
+            throw new RuntimeException("Admin not found");
+        }
+        Admin admin = adminOptional.get();
+
+        // Admin listesini repository üzerinden çekilir,
+        List<Admin> adminList = repository.findAll();
+
+        //ve cevap listesine  for ile kaydedilir.
+        List<GetAllAdminResponse> dtos = new ArrayList<>();
+        for (Admin admin1 : adminList) {
+            dtos.add(GetAllAdminResponse.builder()
+                            .name(admin1.getName())
+                            .gender(admin1.getCinsiyet())
+                            .email(admin1.getEmail())
+                            .surname(admin1.getSurname())
+                            .httpStatus(HttpStatus.OK)
+                            .message("ok")
+                            .role(admin1.getRole())
+                    .message("ok")
+                    .statusCode(200)
+                    .build());
+        }
+        return dtos;
     }
 
-    public GetAdminByIdResponseDto findById(GetAdminByIdRequestDto dto) {
+    public GetAdminByIdResponseDto getAdminfindById(GetAdminByIdRequestDto dto) {
+        Optional<Long> id=jsonTokenManager.getIdByToken(dto.getToken());
+        if (id.isEmpty()){
+            throw new RuntimeException();
+        }
+        Optional<Admin> admin=repository.findById(id.get());
+        if (admin.isEmpty())throw new RuntimeException();
 
-
-        Optional<Admin> admin=repository.findById(dto.getId());
         return GetAdminByIdResponseDto.builder()
                 .message("ok")
                 .statusCode(200)
@@ -58,7 +96,6 @@ public class AdminService {
                 .email(admin.get().getEmail())
                 .build();
     }
-
 
     public LoginAdminResponseDto login(LoginAdminRequestDto dto) {
         if (!repository.existsByEmail(dto.getEmail())){
@@ -81,6 +118,8 @@ public class AdminService {
                 .build();
     }
 
-
-
+    public Optional<Admin> findById(Long id) {
+        Optional<Admin> admin=repository.findById(id);
+        return admin;
+    }
 }

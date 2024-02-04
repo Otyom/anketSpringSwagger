@@ -21,9 +21,13 @@ public class Survey {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToMany(mappedBy = "survey")
-    @OrderBy("id ASC")
-    List<Question> questions;
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "survey_question",
+            joinColumns = @JoinColumn(name = "question_id"),
+            inverseJoinColumns = @JoinColumn(name = "survey_id")
+    )
+    private List<Survey> surveys;
 
     private String title;
     private Date date;
