@@ -32,4 +32,5 @@ public class Survey {
     private String title;
     private Date date;
     private String description;
+
 }
