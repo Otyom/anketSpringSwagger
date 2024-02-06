@@ -6,16 +6,13 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.http.HttpStatus;
 
-@Data
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
-public class GetAdminByIdResponseDto {
-    private String name;
-    private String surname;
-    private String email;
+@Data
+public class GetSurveysIdByClassIdResponseDto {
+    private Long id;
     private String message;
     private int statusCode;
     private HttpStatus httpStatus;
-
 }

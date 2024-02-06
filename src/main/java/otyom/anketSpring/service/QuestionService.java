@@ -7,17 +7,21 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import otyom.anketSpring.dto.request.SaveQuestionRequestDto;
 import otyom.anketSpring.dto.response.BaseResponseDto;
+import otyom.anketSpring.dto.response.GetAllQuestionByStudentResponseDto;
 import otyom.anketSpring.entity.Admin;
 import otyom.anketSpring.entity.Question;
 import otyom.anketSpring.entity.QuestionType.Secenek;
 import otyom.anketSpring.entity.QuestionType.Text;
 import otyom.anketSpring.entity.QuestionType.YesNo;
+import otyom.anketSpring.entity.Student;
 import otyom.anketSpring.entity.Teacher;
 import otyom.anketSpring.entity.enums.QuestionType;
 import otyom.anketSpring.repository.IQuestionRepository;
 import otyom.anketSpring.util.JsonTokenManager;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -29,6 +33,10 @@ public class QuestionService {
     private JsonTokenManager jsonTokenManager;
     @Autowired
     private TeacherService teacherService;
+    @Autowired
+    private AdminService adminService;
+    @Autowired
+    private StudentService studentService;
 
 
 
@@ -37,10 +45,15 @@ public class QuestionService {
         if (id.isEmpty()){
             throw new RuntimeException();
         }
-        Optional<Teacher> teacher=teacherService.findById(id.get());
-        if (teacher.isEmpty()){
+
+        Optional<Admin> adminOptional = adminService.findById(id.get());
+        Optional<Teacher> teacherOptional = teacherService.findById(id.get());
+
+        if (adminOptional.isEmpty() || teacherOptional.isEmpty()){
             throw new RuntimeException();
         }
+
+
 
         Optional<Question> question = repository.findByQuestion(dto.getQuestion());
         if (question.isPresent()) {
@@ -52,7 +65,7 @@ public class QuestionService {
         }
         Question newQuestion = Question.builder()
                 .date(new Date())
-                .teacherId(teacher.get().getId())
+                .teacherId(teacherOptional.get().getId())
                 .question(dto.getQuestion())
                 .type(dto.getQuestionType())
                 .build();
@@ -74,11 +87,39 @@ public class QuestionService {
     }
 
 
+    //admin ve öğrenci erişebilir.
+    public List<GetAllQuestionByStudentResponseDto> getQuestionsByStudentIdAndSurveyId(String token, Long studentId, Long surveyId) {
+        Optional<Long> id= jsonTokenManager.getIdByToken(token);
+        if (id.isEmpty()) {
+            throw new RuntimeException("geçersiz");
+        }
 
+        Optional<Admin> adminOptional = adminService.findById(id.get());
+        Optional<Teacher> teacherOptional = teacherService.findById(id.get());
 
-    public boolean existsById(Long questionId) {
-        repository.existsById(questionId);
-        return true;
+        if (adminOptional.isEmpty() || teacherOptional.isEmpty()){
+            throw new RuntimeException();
+        }
+
+        Optional<Student>studentOptional=studentService.findById(studentId);
+
+        if (!studentOptional.get().getId().equals(studentId)) {
+            throw new RuntimeException("yetkiniz yok");
+        }
+
+        List<Question> questionsList =repository.findQuestionsByStudentAndSurvey(studentId, surveyId);
+
+        //ve cevap listesine for ile kaydedilir.
+        List<GetAllQuestionByStudentResponseDto> dtos = new ArrayList<>();
+        for (Question question : questionsList) {
+            dtos.add(GetAllQuestionByStudentResponseDto.builder()
+                    .type(question.getType())
+                    .date(question.getDate())
+                    .teacherId(question.getTeacherId())
+                    .question(question.getQuestion())
+                    .build());
+        }
+        return dtos;
     }
 
     public Optional<Question> findById(Long questionId) {

@@ -20,12 +20,6 @@ public class AdminController {
 
     @Autowired
     private AdminService adminService;
-    @Autowired
-    private TeacherService teacherService;
-    @Autowired
-    private ClasService clasService;
-    @Autowired
-    private StudentService studentService;
 
 
     //Admin  İşlemleri
@@ -34,15 +28,15 @@ public class AdminController {
     adminService.saveAdmin(dto);
    }
 
-   @GetMapping("/getAll")
-   public ResponseEntity<List<GetAllAdminResponse>> getAdmin(@RequestParam String token){
+   @GetMapping("/getAllAdmin")
+   public ResponseEntity<List<GetAllAdminResponseDto>> getAdmin(@RequestParam String token){
     return ResponseEntity.ok(adminService.getAll(token));
    }
-   @PostMapping("/getAdminById")
+   @GetMapping("/getAdminById")
     public ResponseEntity<GetAdminByIdResponseDto>getAdminById(@RequestBody GetAdminByIdRequestDto dto){
        return  ResponseEntity.ok(adminService.getAdminfindById(dto));
    }
-   @PostMapping("/login")
+   @PostMapping("/loginAdmin")
    private ResponseEntity<LoginAdminResponseDto>login(@RequestBody LoginAdminRequestDto dto){
        return ResponseEntity.ok(adminService.login(dto));
 

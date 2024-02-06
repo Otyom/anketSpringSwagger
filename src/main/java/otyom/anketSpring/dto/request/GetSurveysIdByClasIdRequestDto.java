@@ -4,16 +4,10 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.ArrayList;
-import java.util.List;
-
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class SaveSurveyToQuestionRequestDto {
-    private String Token;
-    private Long surveyId;
+public class GetSurveysIdByClasIdRequestDto {
+    private String token;
     private Long clasId;
-    private Long questionsId;
-
 }

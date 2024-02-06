@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.http.HttpStatus;
 import otyom.anketSpring.entity.enums.Gender;
 import otyom.anketSpring.entity.enums.RoleEnum;
 
@@ -20,5 +21,9 @@ public class GetAllAdminResponseDto {
     private String message;
     @Enumerated(EnumType.STRING)
     private Gender gender;
-    private String statusCode;
+    private int statusCode;
+    private HttpStatus httpStatus;
+    @Enumerated(EnumType.STRING)
+    private RoleEnum role;
+
 }

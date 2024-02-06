@@ -31,7 +31,7 @@ public class Question {
     private QuestionType type;
     private String answerType;
     private Date date;
-  private Long teacherId;
+    private Long teacherId;
 
 
 }

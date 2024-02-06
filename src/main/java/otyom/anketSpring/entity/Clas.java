@@ -6,7 +6,10 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
+import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @SuperBuilder
 @AllArgsConstructor
@@ -22,13 +25,6 @@ public class Clas {
     @Column(unique = true,nullable = false)
     private String clasName;
 
-    @ManyToMany
-    @JoinTable(
-            name = "clas_survey",
-            joinColumns = @JoinColumn(name = "clas_id"),
-            inverseJoinColumns = @JoinColumn(name = "survey_id")
-    )
-    private List<Survey> surveys;
 
 
 }

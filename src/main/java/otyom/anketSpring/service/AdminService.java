@@ -47,7 +47,7 @@ public class AdminService {
         repository.save(admin);
     }
 
-    public List<GetAllAdminResponse> getAll(String token) {
+    public List<GetAllAdminResponseDto> getAll(String token) {
         Optional<Long> id = jsonTokenManager.getIdByToken(token);
         if (id.isEmpty()) {
             throw new RuntimeException("Admin not found");
@@ -58,13 +58,13 @@ public class AdminService {
         }
         Admin admin = adminOptional.get();
 
-        // Admin listesini repository üzerinden çekilir,
+
         List<Admin> adminList = repository.findAll();
 
-        //ve cevap listesine  for ile kaydedilir.
-        List<GetAllAdminResponse> dtos = new ArrayList<>();
+        //ve cevap listesine  for ile kaydettim.
+        List<GetAllAdminResponseDto> dtos = new ArrayList<>();
         for (Admin admin1 : adminList) {
-            dtos.add(GetAllAdminResponse.builder()
+            dtos.add(GetAllAdminResponseDto.builder()
                             .name(admin1.getName())
                             .gender(admin1.getCinsiyet())
                             .email(admin1.getEmail())

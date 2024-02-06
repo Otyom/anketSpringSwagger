@@ -1,17 +1,18 @@
 package otyom.anketSpring.service;
 
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityNotFoundException;
+import jakarta.persistence.PersistenceContext;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import otyom.anketSpring.dto.response.GetAllQuestionByStudentResponseDto;
+import otyom.anketSpring.dto.request.GetSutudentByIdRequestDto;
 import otyom.anketSpring.dto.request.LoginStudentRequestDto;
 import otyom.anketSpring.dto.request.SaveStudentRequestDto;
-import otyom.anketSpring.dto.response.BaseResponseDto;
-import otyom.anketSpring.dto.response.GetClasStudentResponseDto;
-import otyom.anketSpring.dto.response.LoginStudentResponseDto;
-import otyom.anketSpring.entity.Admin;
-import otyom.anketSpring.entity.Student;
-import otyom.anketSpring.entity.Teacher;
+import otyom.anketSpring.dto.response.*;
+import otyom.anketSpring.entity.*;
 import otyom.anketSpring.entity.enums.RoleEnum;
 import otyom.anketSpring.repository.IStudentRepository;
 import otyom.anketSpring.util.JsonTokenManager;
@@ -23,48 +24,62 @@ import java.util.Optional;
 @Service
 public class StudentService {
     @Autowired
-    private IStudentRepository repository;
+    private  IStudentRepository repository;
     @Autowired
     private TeacherService teacherService;
     @Autowired
     private AdminService adminService;
+    @Autowired
+    private JsonTokenManager jsonTokenManager;
+    @Autowired
+    private ClasService clasService;
 
-    public final JsonTokenManager jsonTokenManager;
-    public StudentService(JsonTokenManager jsonTokenManager) {
-        this.jsonTokenManager = jsonTokenManager;
-    }
+
+
+
 
     //Öğrenci kaydet
     public BaseResponseDto studentSave(SaveStudentRequestDto dto) {
         Optional<Long> id = jsonTokenManager.getIdByToken(dto.getToken());
         if (id.isEmpty()) {
-            throw new RuntimeException("Admin not found");
+            throw new RuntimeException("token not found");
         }
         Optional<Admin> adminOptional = adminService.findById(id.get());
         if (adminOptional.isEmpty()) {
             throw new RuntimeException("Admin veya teacher not found");
         }
+
+        // dto'dan clasId'yi aldım yoksa hata attım
+        Long clasId = dto.getClasId();
+        if (clasId == null) {
+            throw new IllegalArgumentException("clasId cannot be null");
+        }
+
+        // varsada Clas'ı buldum ve clas yoksa not found fırlattım.
+        Clas clas = clasService.findById(clasId)
+                .orElseThrow(() -> new EntityNotFoundException("Class not found with id: "));
+
+
+
         Student student= Student.builder()
                 .name(dto.getName())
                 .surname(dto.getSurname())
                 .email(dto.getEmail())
                 .cinsiyet(dto.getGender())
                 .phoneNumber(dto.getPhoneNumber())
-                .clasId(dto.getClasId())
                 .tc(dto.getTc())
+                .clas(clas)
                 .password(dto.getPassword())
                 .role(RoleEnum.STUDENT_ROLE)
                 .build();
-        if (student.getClasId()==null || student.getClasId()==0){
-            throw new RuntimeException();
-        }else {
+
             repository.save(student);
             return BaseResponseDto.builder()
                     .message("ok")
                     .statusCode(200)
                     .httpStatus(HttpStatus.OK)
                     .build();
-        }
+
     }
 
 
@@ -72,19 +87,18 @@ public class StudentService {
     public List<GetClasStudentResponseDto> getAllStudentByClasId(String token,Long clasId){
         Optional<Long> id = jsonTokenManager.getIdByToken(token);
         if (id.isEmpty()) {
-            throw new RuntimeException("Admin not found");
+            throw new RuntimeException("token not found");
         }
         Optional<Teacher> teacherOptional = teacherService.findById(id.get());
         Optional<Admin> adminOptional = adminService.findById(id.get());
         if (adminOptional.isEmpty() || teacherOptional.isEmpty()) {
-            throw new RuntimeException("Admin veya teacher not found");
+            throw new RuntimeException("Admin or teacher not found");
         }
 
         List<Student> classes=repository.findByclasId(clasId);
         List<GetClasStudentResponseDto> responseDtos=new ArrayList<>();
         for (Student student :classes){
             responseDtos.add(GetClasStudentResponseDto.builder()
-                            .clasId(student.getClasId())
                             .name(student.getName())
                             .surname(student.getSurname())
                             .gender(student.getCinsiyet())
@@ -117,12 +131,56 @@ public class StudentService {
     }
 
 
+    public GetStudentByIdResponseDto getSutudentById(GetSutudentByIdRequestDto dto){
+        Optional<Long> id = jsonTokenManager.getIdByToken(dto.getToken());
+        if (id.isEmpty()) {
+            throw new RuntimeException("token not found");
+        }
+        Optional<Teacher> teacherOptional = teacherService.findById(id.get());
+        Optional<Admin> adminOptional = adminService.findById(id.get());
+        if (adminOptional.isEmpty() || teacherOptional.isEmpty()) {
+            throw new RuntimeException("Admin or teacher not found");
+        }
+        Optional<Student> student=repository.findById(dto.getId());
+        if (student.isEmpty())throw new RuntimeException();
+        return GetStudentByIdResponseDto.builder()
+                .email(student.get().getEmail())
+                .name(student.get().getName())
+                .surname(student.get().getSurname())
+                .message("ok")
+                .statusCode(200)
+                .httpStatus(HttpStatus.OK)
+                .build();
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    public Optional<Student> findById(Long id) {
+        Optional<Student>student= repository.findById(id);
+        return student;
+    }
     public  List<Student> getAllStudent(){
         return repository.findAll();
     }
-
-    public Optional<Student> findById(Long id) {
-       Optional<Student>student= repository.findById(id);
-       return student;
+    public Student save(Student student) {
+       return repository.save(student);
     }
 }

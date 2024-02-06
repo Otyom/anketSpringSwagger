@@ -6,9 +6,10 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.ArrayList;
+
 import java.util.Date;
-import java.util.List;
+
+
 
 @Builder
 @AllArgsConstructor
@@ -31,11 +32,12 @@ public class Answer {
 
     private Date date;
 
-    public Answer(String answer, Question question, Date date) {
-        this.answer = answer;
-        this.question = question;
-        this.date = date;
+    @ManyToOne
+    @JoinColumn(name = "studentId")
+    private Student student;
 
 
-    }
+    private Long surveyId;
+
+
 }
