@@ -44,11 +44,11 @@ public class JsonTokenManager {
             if (decodedJWT==null){
                 return Optional.empty();
             }
-            Optional<Long> ıd=Optional.of(decodedJWT.getClaim("id").asLong());
-            if (ıd.isEmpty()){
+            Optional<Long> id=Optional.of(decodedJWT.getClaim("id").asLong());
+            if (id.isEmpty()){
                 System.out.println("id bos");
             }
-            return ıd;
+            return id;
 
         }catch (Exception e){
             e.printStackTrace();

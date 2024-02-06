@@ -17,4 +17,5 @@ public class SaveAnswerRequestDto {
     private String token;
     private Long questionId;
     private String answer;
+    private Long surveyid;
 }

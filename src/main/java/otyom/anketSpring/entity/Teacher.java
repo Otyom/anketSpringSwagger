@@ -6,7 +6,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
+
 
 @SuperBuilder
 @AllArgsConstructor
@@ -15,6 +17,14 @@ import java.util.List;
 @Entity
 @Table(name = "teacher")
 public class Teacher extends MyUser {
-int a;
+  @ManyToMany
+   @JoinTable(
+           name = "teacher_clas",
+           joinColumns = @JoinColumn(name = "teacherId"),
+           inverseJoinColumns = @JoinColumn(name = "clasId"))
+   private Set<Clas> clasSes = new HashSet<>();
+
+
+
 
 }

@@ -2,10 +2,7 @@ package otyom.anketSpring.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import otyom.anketSpring.dto.request.LoginTeacherRequestDto;
 import otyom.anketSpring.dto.request.SaveTeacherRequestDto;
 import otyom.anketSpring.dto.response.BaseResponseDto;
@@ -27,13 +24,16 @@ public class TeacherController {
         return ResponseEntity.ok(teacherService.saveTeacher(dto));
     }
 
-    @PostMapping("/ogretmenLogin")
-    private ResponseEntity<LoginTeacherResponseDto> teacherLogin(@RequestBody LoginTeacherRequestDto dto){
+    @PostMapping("/loginTeacher")
+    public ResponseEntity<LoginTeacherResponseDto> teacherLogin(@RequestBody LoginTeacherRequestDto dto){
         return ResponseEntity.ok(teacherService.teacherLogin(dto));
     }
 
 
-
+    @PostMapping("/addTeacherToClas")
+    public ResponseEntity<BaseResponseDto> addTeacherToClas(@RequestParam Long teacherId, Long clasId, String token){
+        return ResponseEntity.ok(teacherService.addTeacherToClas(teacherId,clasId,token));
+    }
 
 
 }
