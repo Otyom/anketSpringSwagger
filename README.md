@@ -1,9 +1,6 @@
 # SURVEY_SPRING_SWAGER
 ## Genel Bakış.
 
-```
-git taahhüt
-```
 
 - Anket oluşturmak için önce Admin save edilmesi gerekiyor.  
 - Admin save edildiğinde yönetici rolünde bir kullanıcınız olacktır. 
