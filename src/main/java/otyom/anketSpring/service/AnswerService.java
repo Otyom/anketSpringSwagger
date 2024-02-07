@@ -3,18 +3,12 @@ package otyom.anketSpring.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import otyom.anketSpring.Exception.userexceptions.TokenNotFoundException;
 import otyom.anketSpring.dto.request.SaveAnswerRequestDto;
-import otyom.anketSpring.dto.request.SaveQuestionRequestDto;
 import otyom.anketSpring.dto.response.BaseResponseDto;
-import otyom.anketSpring.dto.response.GetAllAdminResponseDto;
 import otyom.anketSpring.dto.response.GetAllAnswerStudentResponseDto;
 import otyom.anketSpring.entity.*;
-import otyom.anketSpring.entity.QuestionType.Secenek;
-import otyom.anketSpring.entity.QuestionType.Text;
-import otyom.anketSpring.entity.QuestionType.YesNo;
-import otyom.anketSpring.entity.enums.QuestionType;
 import otyom.anketSpring.repository.IAnswerRepository;
-import otyom.anketSpring.repository.IQuestionRepository;
 import otyom.anketSpring.util.JsonTokenManager;
 
 import java.util.ArrayList;
@@ -41,7 +35,7 @@ public class AnswerService {
     public BaseResponseDto saveAnswer(SaveAnswerRequestDto dto) {
         Optional<Long> id = jsonTokenManager.getIdByToken(dto.getToken());
         if (id.isEmpty()) {
-            throw new RuntimeException("geçersiz student");
+            throw new TokenNotFoundException();
         }
 
         Optional<Student> student = studentService.findById(id.get());
@@ -81,7 +75,7 @@ public class AnswerService {
     public List<GetAllAnswerStudentResponseDto> getAllAnswerByStudentIdAndSurveyId(String token, Long surveyId, Long studentId) {
         Optional<Long> adminId = jsonTokenManager.getIdByToken(token);
         if (adminId.isEmpty()) {
-            throw new RuntimeException("admin yok");
+            throw new TokenNotFoundException();
         }
 
         Optional<Admin> adminOptional = adminService.findById(adminId.get());
