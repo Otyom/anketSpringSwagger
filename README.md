@@ -33,5 +33,5 @@
 
 > [!IMPORTANT]
 > Admin ve öğretmenin olduğu tüm yetkilerde şimdilik admin token kabul görüyor. //Düzeltilecek şimdilik servis sınıflarında iki yetkisi olan metotlalara yorum eklendi.
-> öğrenci soruları getirme //Düzeltilecek
-> soru kayıtta teacher token kabul ediyor.
+> Öğrenci soruları getirme //Düzeltilecek
+> Soru kayıtta teacher token kabul ediyor.
