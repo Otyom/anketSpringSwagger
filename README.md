@@ -31,7 +31,9 @@ git taahhüt
 - Id si girilen adminin bilgilerini getirme
 - İşemleri yapılmaktadır.
 
+> [!NOTE]
+> Hata özelleştirmeler devam etmekte...
 
-
-
-
+> [!IMPORTANT]
+> Admin ve öğretmenin olduğu tüm yetkilerde şimdilik admin token kabul görüyor. //Düzeltilecek
+> Servis sınıflarında iki yetkisi olan metotlalara yorum eklendi.
