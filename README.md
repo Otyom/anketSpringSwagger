@@ -34,3 +34,4 @@
 > [!IMPORTANT]
 > Admin ve öğretmenin olduğu tüm yetkilerde şimdilik admin token kabul görüyor. //Düzeltilecek
 > Servis sınıflarında iki yetkisi olan metotlalara yorum eklendi.
+> öğrenci soruları getirme //Düzeltilecek
