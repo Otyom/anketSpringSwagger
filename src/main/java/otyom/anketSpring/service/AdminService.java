@@ -3,7 +3,7 @@ package otyom.anketSpring.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import otyom.anketSpring.Exception.userexceptions.*;
+import otyom.anketSpring.exception.userexceptions.*;
 import otyom.anketSpring.dto.request.GetAdminByIdRequestDto;
 import otyom.anketSpring.dto.request.SaveAdminRequestDto;
 import otyom.anketSpring.dto.response.*;
@@ -45,9 +45,6 @@ public class AdminService {
                 .tc(dto.getTc())
                 .phoneNumber(dto.getPhoneNumber())
                 .build();
-        if (repository.existsByEmail(dto.getEmail())){
-            throw new EmailLoginException();
-        }
         repository.save(admin);
     }
 

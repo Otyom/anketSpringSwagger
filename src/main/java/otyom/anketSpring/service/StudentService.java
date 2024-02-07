@@ -4,7 +4,7 @@ import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import otyom.anketSpring.Exception.userexceptions.TokenNotFoundException;
+import otyom.anketSpring.exception.userexceptions.TokenNotFoundException;
 import otyom.anketSpring.dto.request.GetSutudentByIdRequestDto;
 import otyom.anketSpring.dto.request.LoginStudentRequestDto;
 import otyom.anketSpring.dto.request.SaveStudentRequestDto;

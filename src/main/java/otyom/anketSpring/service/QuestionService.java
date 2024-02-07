@@ -3,7 +3,7 @@ package otyom.anketSpring.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import otyom.anketSpring.Exception.userexceptions.TokenNotFoundException;
+import otyom.anketSpring.exception.userexceptions.TokenNotFoundException;
 import otyom.anketSpring.dto.request.SaveQuestionRequestDto;
 import otyom.anketSpring.dto.response.BaseResponseDto;
 import otyom.anketSpring.dto.response.GetAllQuestionByStudentResponseDto;

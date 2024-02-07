@@ -1,4 +1,4 @@
-package otyom.anketSpring.Exception;
+package otyom.anketSpring.exception;
 
 import lombok.Builder;
 

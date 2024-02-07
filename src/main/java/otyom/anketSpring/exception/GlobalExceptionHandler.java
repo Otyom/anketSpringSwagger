@@ -1,19 +1,18 @@
-package otyom.anketSpring.Exception;
+package otyom.anketSpring.exception;
 
-import jakarta.persistence.Table;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-import otyom.anketSpring.Exception.userexceptions.*;
+import otyom.anketSpring.exception.userexceptions.*;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(EmailAlreadyExistsException.class)
     @ResponseBody
-    public ResponseEntity<ErrorMessage> emailAlreadyExsis(EmailLoginException emailLoginException){
+    public ResponseEntity<ErrorMessage> emailAlreadyExsis(EmailAlreadyExistsException emailAlreadyExistsException){
         return new ResponseEntity<>(
                 createMessage(ErrorType.EMAIL_ALREADY_EXSIST_EXCEPTION),
                 HttpStatus.BAD_GATEWAY);
@@ -21,9 +20,9 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(EmailLoginException.class)
     @ResponseBody
-    public ResponseEntity<ErrorMessage> emailLoginException(EmailAlreadyExistsException emailAlreadyExistsException){
+    public ResponseEntity<ErrorMessage> emailLoginException(EmailLoginException emailLoginException){
         return new ResponseEntity<>(
-                createMessage( ErrorType.EMAIL_ALREADY_EXSIST_EXCEPTION),
+                createMessage( ErrorType.EMAIL_LOGIN_EXCEPTION),
                 HttpStatus.BAD_REQUEST);
     }
 

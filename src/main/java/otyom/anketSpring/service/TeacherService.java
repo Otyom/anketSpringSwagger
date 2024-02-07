@@ -5,7 +5,7 @@ import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import otyom.anketSpring.Exception.userexceptions.TokenNotFoundException;
+import otyom.anketSpring.exception.userexceptions.TokenNotFoundException;
 import otyom.anketSpring.dto.request.LoginTeacherRequestDto;
 import otyom.anketSpring.dto.request.SaveTeacherRequestDto;
 import otyom.anketSpring.dto.response.BaseResponseDto;

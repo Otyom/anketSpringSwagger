@@ -1,4 +1,4 @@
-package otyom.anketSpring.Exception;
+package otyom.anketSpring.exception;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -8,11 +8,11 @@ import lombok.Getter;
 public enum ErrorType {
     //not found
     ADMIN_NOT_FOUND_EXCEPTION(1001,"Admin Not Found"),
-    TOKEN_NOT_FOUND(1002,"Token not found"),
+    TOKEN_NOT_FOUND(4001,"Token not found"),
 
 
     //WRONG/HATALI
-    WRONG_TOKEN(1003,"Yanlış token"),
+    WRONG_TOKEN(4002,"Yanlış token"),
 
 
     //exist
@@ -20,8 +20,11 @@ public enum ErrorType {
 
 
 
+
     //NOT MATCH
-    PASSWORD_NOT_MATCH(2001,"Password not match");
+    EMAIL_LOGIN_EXCEPTION(3001,"Email hatalı"),
+    PASSWORD_NOT_MATCH(3002,"Password not match");
+
 
 
 

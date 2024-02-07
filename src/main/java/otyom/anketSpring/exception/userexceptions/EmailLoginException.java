@@ -1,4 +1,4 @@
-package otyom.anketSpring.Exception.userexceptions;
+package otyom.anketSpring.exception.userexceptions;
 
 public class EmailLoginException extends RuntimeException{
     public EmailLoginException(String message){
