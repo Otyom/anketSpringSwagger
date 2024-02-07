@@ -4,6 +4,7 @@ package otyom.anketSpring.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import otyom.anketSpring.Exception.userexceptions.AdminNotFoundException;
 import otyom.anketSpring.Exception.userexceptions.TokenNotFoundException;
 import otyom.anketSpring.dto.request.SaveClasRequestDto;
 import otyom.anketSpring.dto.response.BaseResponseDto;
@@ -32,7 +33,7 @@ public class ClasService {
         }
         Optional<Admin> adminOptional = adminService.findById(id.get());
         if (adminOptional.isEmpty()) {
-            throw new RuntimeException("Admin not found");
+            throw new AdminNotFoundException();
         }
 
         Clas clas = Clas.builder()

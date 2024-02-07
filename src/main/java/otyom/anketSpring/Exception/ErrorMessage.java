@@ -4,8 +4,8 @@ import lombok.Builder;
 
 @Builder
 public class ErrorMessage {
-    int statusCode;
-    String message;
+    public int statusCode;
+    public String message;
 
 
 }

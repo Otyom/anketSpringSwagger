@@ -6,7 +6,7 @@ public class WrongTokenException extends RuntimeException {
     }
 
     public WrongTokenException(){
-        super();
+            super();
     }
 
 

@@ -6,4 +6,8 @@ public class PasswordLoginException extends RuntimeException{
         super(message);
     }
 
+
+    public PasswordLoginException(){
+        super();
+    }
 }

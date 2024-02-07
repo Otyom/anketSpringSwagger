@@ -45,6 +45,9 @@ public class AdminService {
                 .tc(dto.getTc())
                 .phoneNumber(dto.getPhoneNumber())
                 .build();
+        if (repository.existsByEmail(dto.getEmail())){
+            throw new EmailLoginException();
+        }
         repository.save(admin);
     }
 

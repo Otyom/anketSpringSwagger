@@ -23,6 +23,16 @@ public enum ErrorType {
     //NOT MATCH
     PASSWORD_NOT_MATCH(2001,"Password not match");
 
+
+
+
+
+
+
+
+
+
+
     int statusCode;
     String message;
 
