@@ -32,6 +32,5 @@
 > Hata özelleştirmeler devam etmekte...
 
 > [!IMPORTANT]
-> Admin ve öğretmenin olduğu tüm yetkilerde şimdilik admin token kabul görüyor. //Düzeltilecek
-> Servis sınıflarında iki yetkisi olan metotlalara yorum eklendi.
+> Admin ve öğretmenin olduğu tüm yetkilerde şimdilik admin token kabul görüyor. //Düzeltilecek şimdilik servis sınıflarında iki yetkisi olan metotlalara yorum eklendi.
 > öğrenci soruları getirme //Düzeltilecek
