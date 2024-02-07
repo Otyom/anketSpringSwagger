@@ -13,13 +13,13 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(EmailAlreadyExisException.class)
     @ResponseBody
     public ResponseEntity<ErrorMessage> emailAlreadyExsis(){
-        return new ResponseEntity<>(createMessage(ErrorType.EMAİL_ALREADY_EXSIST_EXCEPTION),HttpStatus.BAD_GATEWAY);
+        return new ResponseEntity<>(createMessage(ErrorType.EMAIL_ALREADY_EXSIST_EXCEPTION),HttpStatus.BAD_GATEWAY);
     }
 
     @ExceptionHandler(EmailLoginException.class)
     @ResponseBody
     public ResponseEntity<ErrorMessage> emailLoginException(EmailAlreadyExisException loginEx){
-        return new ResponseEntity<>(createMessage(ErrorType.EMAİL_ALREADY_EXSIST_EXCEPTION), HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(createMessage(ErrorType.EMAIL_ALREADY_EXSIST_EXCEPTION), HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(PasswordLoginException.class)

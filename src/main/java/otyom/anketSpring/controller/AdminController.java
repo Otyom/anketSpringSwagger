@@ -58,14 +58,4 @@ public class AdminController {
 
 
 
-
-    //Runtime hata fırlatma ekrana örnek
-    @ExceptionHandler(RuntimeException.class)
-    @ResponseBody
-    public ResponseEntity<String>runtimeException(){
-       return new ResponseEntity<>("hata aldık", HttpStatus.BAD_GATEWAY);
-    }
-
-
-
 }

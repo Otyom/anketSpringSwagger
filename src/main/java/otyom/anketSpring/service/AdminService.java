@@ -35,9 +35,6 @@ public class AdminService {
         if (adminOptional.isEmpty()) {
             throw new RuntimeException("Admin not found");
         }*/
-        if (!repository.existsByEmail(dto.getEmail())){
-            throw new EmailAlreadyExisException();
-        }
         Admin admin= Admin.builder()
                 .name(dto.getName())
                 .surname(dto.getSurname())

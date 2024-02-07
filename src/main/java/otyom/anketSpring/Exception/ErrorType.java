@@ -16,7 +16,7 @@ public enum ErrorType {
 
 
     //exist
-    EMAİL_ALREADY_EXSIST_EXCEPTION(2001,"Admin mevcut"),
+    EMAIL_ALREADY_EXSIST_EXCEPTION(2001,"Admin mevcut"),
 
 
 
