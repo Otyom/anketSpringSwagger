@@ -5,6 +5,7 @@ import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import otyom.anketSpring.Exception.userexceptions.TokenNotFoundException;
 import otyom.anketSpring.dto.request.LoginTeacherRequestDto;
 import otyom.anketSpring.dto.request.SaveTeacherRequestDto;
 import otyom.anketSpring.dto.response.BaseResponseDto;
@@ -14,7 +15,6 @@ import otyom.anketSpring.entity.enums.RoleEnum;
 import otyom.anketSpring.repository.ITeacherRepository;
 import otyom.anketSpring.util.JsonTokenManager;
 
-import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -32,7 +32,7 @@ public class TeacherService {
     public BaseResponseDto saveTeacher(SaveTeacherRequestDto dto){
         Optional<Long> id=jsonTokenManager.getIdByToken(dto.getToken());
         if (id.isEmpty()){
-            throw new RuntimeException();
+            throw new TokenNotFoundException();
         }
         Optional<Admin> admin=adminService.findById(id.get());
         if (admin.isEmpty())throw new RuntimeException();

@@ -4,11 +4,10 @@ import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import otyom.anketSpring.dto.request.GetQuestionsBySurveyIdRequestDto;
+import otyom.anketSpring.Exception.userexceptions.TokenNotFoundException;
 import otyom.anketSpring.dto.request.GetSurveysIdByClasIdRequestDto;
 import otyom.anketSpring.dto.request.SaveSurveyRequestDto;
 import otyom.anketSpring.dto.response.BaseResponseDto;
-import otyom.anketSpring.dto.response.GetQuestionsResponseDto;
 import otyom.anketSpring.dto.response.GetSurveysIdByClassIdResponseDto;
 import otyom.anketSpring.entity.*;
 import otyom.anketSpring.repository.ISurveyRepository;
@@ -34,7 +33,7 @@ public class SurveyService {
     public BaseResponseDto surveySave(SaveSurveyRequestDto dto){
         Optional<Long> id = jsonTokenManager.getIdByToken(dto.getToken());
         if (id.isEmpty()) {
-            throw new RuntimeException("Admin not found");
+            throw new TokenNotFoundException();
         }
         Optional<Teacher> teacherOptional = teacherService.findById(id.get());
         if (teacherOptional.isEmpty()) {
@@ -56,7 +55,7 @@ public class SurveyService {
     public BaseResponseDto addQuestionToSurvey(Long surveyId, Long questionId,String token) {
         Optional<Long> id = jsonTokenManager.getIdByToken(token);
         if (id.isEmpty()) {
-            throw new RuntimeException("Admin not found");
+            throw new TokenNotFoundException();
         }
         Optional<Teacher> teacherOptional = teacherService.findById(id.get());
         if (teacherOptional.isEmpty()) {
@@ -80,17 +79,13 @@ public class SurveyService {
                 .build();
     }
 
-    public Optional<Survey> findById(Long surveyId) {
-        Optional<Survey> survey= repository.findById(surveyId);
-        return survey;
-    }
 
 
 
     public BaseResponseDto addSurveyToClas(Long surveyId, Long clasId,String token) {
         Optional<Long> id = jsonTokenManager.getIdByToken(token);
         if (id.isEmpty()) {
-            throw new RuntimeException("id not found");
+            throw new TokenNotFoundException();
         }
         Optional<Teacher> teacher = teacherService.findById(id.get());
         if (teacher.isEmpty()) {
@@ -124,7 +119,7 @@ public class SurveyService {
     public List<String> getClasNamesBySurveyId(Long surveyId,String token) {
         Optional<Long> id = jsonTokenManager.getIdByToken(token);
         if (id.isEmpty()) {
-            throw new RuntimeException("Geçersiz token");
+            throw new TokenNotFoundException();
         }
         Optional<Admin> adminOptional = adminService.findById(id.get());
         Optional<Teacher> teacherOptional = teacherService.findById(id.get());
@@ -146,7 +141,7 @@ public class SurveyService {
     public List<GetSurveysIdByClassIdResponseDto> getSurveysIdByClassId(GetSurveysIdByClasIdRequestDto dto) {
         Optional<Long> id = jsonTokenManager.getIdByToken(dto.getToken());
         if (id.isEmpty()) {
-            throw new RuntimeException("Geçersiz token");
+            throw new TokenNotFoundException();
         }
         Optional<Admin> adminOptional = adminService.findById(id.get());
         Optional<Teacher> teacherOptional = teacherService.findById(id.get());
@@ -174,7 +169,15 @@ public class SurveyService {
 
 
 
+
+
+    public Optional<Survey> findById(Long surveyId) {
+        Optional<Survey> survey= repository.findById(surveyId);
+        return survey;
     }
+
+
+}
 
 
 

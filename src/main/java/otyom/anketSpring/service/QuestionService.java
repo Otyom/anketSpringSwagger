@@ -1,10 +1,9 @@
 package otyom.anketSpring.service;
 
-import org.hibernate.ObjectNotFoundException;
-import org.hibernate.annotations.NotFound;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import otyom.anketSpring.Exception.userexceptions.TokenNotFoundException;
 import otyom.anketSpring.dto.request.SaveQuestionRequestDto;
 import otyom.anketSpring.dto.response.BaseResponseDto;
 import otyom.anketSpring.dto.response.GetAllQuestionByStudentResponseDto;
@@ -43,7 +42,7 @@ public class QuestionService {
     public BaseResponseDto questionSave(SaveQuestionRequestDto dto) {
         Optional<Long> id=jsonTokenManager.getIdByToken(dto.getToken());
         if (id.isEmpty()){
-            throw new RuntimeException();
+            throw new TokenNotFoundException();
         }
 
         Optional<Admin> adminOptional = adminService.findById(id.get());
@@ -91,7 +90,7 @@ public class QuestionService {
     public List<GetAllQuestionByStudentResponseDto> getQuestionsByStudentIdAndSurveyId(String token, Long studentId, Long surveyId) {
         Optional<Long> id= jsonTokenManager.getIdByToken(token);
         if (id.isEmpty()) {
-            throw new RuntimeException("geçersiz");
+            throw new TokenNotFoundException();
         }
 
         Optional<Admin> adminOptional = adminService.findById(id.get());

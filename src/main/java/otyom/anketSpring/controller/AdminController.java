@@ -36,6 +36,7 @@ public class AdminController {
     public ResponseEntity<GetAdminByIdResponseDto>getAdminById(@RequestBody GetAdminByIdRequestDto dto){
        return  ResponseEntity.ok(adminService.getAdminfindById(dto));
    }
+   @ExceptionHandler(RuntimeException.class)
    @PostMapping("/loginAdmin")
    private ResponseEntity<LoginAdminResponseDto>login(@RequestBody LoginAdminRequestDto dto){
        return ResponseEntity.ok(adminService.login(dto));

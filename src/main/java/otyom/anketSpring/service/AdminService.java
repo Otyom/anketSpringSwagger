@@ -3,6 +3,7 @@ package otyom.anketSpring.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import otyom.anketSpring.Exception.userexceptions.*;
 import otyom.anketSpring.dto.request.GetAdminByIdRequestDto;
 import otyom.anketSpring.dto.request.SaveAdminRequestDto;
 import otyom.anketSpring.dto.response.*;
@@ -28,12 +29,15 @@ public class AdminService {
     public void saveAdmin(SaveAdminRequestDto dto) {
   /*      Optional<Long> id = jsonTokenManager.getIdByToken(dto.getToken());
         if (id.isEmpty()) {
-            throw new RuntimeException("Admin not found");
+            throw new RuntimeException("Geçersiz token");
         }
         Optional<Admin> adminOptional = repository.findById(id.get());
         if (adminOptional.isEmpty()) {
             throw new RuntimeException("Admin not found");
         }*/
+        if (!repository.existsByEmail(dto.getEmail())){
+            throw new EmailAlreadyExisException();
+        }
         Admin admin= Admin.builder()
                 .name(dto.getName())
                 .surname(dto.getSurname())
@@ -50,15 +54,14 @@ public class AdminService {
     public List<GetAllAdminResponseDto> getAll(String token) {
         Optional<Long> id = jsonTokenManager.getIdByToken(token);
         if (id.isEmpty()) {
-            throw new RuntimeException("Admin not found");
+            throw new TokenNotFoundException();
         }
         Optional<Admin> adminOptional = repository.findById(id.get());
         if (adminOptional.isEmpty()) {
-            throw new RuntimeException("Admin not found");
+            throw new WrongTokenException();
         }
+
         Admin admin = adminOptional.get();
-
-
         List<Admin> adminList = repository.findAll();
 
         //ve cevap listesine  for ile kaydettim.
@@ -99,14 +102,14 @@ public class AdminService {
 
     public LoginAdminResponseDto login(LoginAdminRequestDto dto) {
         if (!repository.existsByEmail(dto.getEmail())){
-            throw new RuntimeException();
+            throw new EmailLoginException("KULLANICI MAİLİ KAYITLI DEĞİL");
         }
         //kullanıcının e-maili varsa kullanıcıyı getir
         Optional<Admin> admin=repository.findOptionalByEmail(dto.getEmail());
 
         //email  şifresi eşit değise hata at
         if(!admin.get().getPassword().equals(dto.getPassword())){
-            throw new RuntimeException();
+            throw new PasswordLoginException("password not match");
         }
 
         //eşitse id ver token oluştur
